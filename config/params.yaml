@@ -1,0 +1,79 @@
+paths:
+  raw_data_dir: data/raw
+  processed_data_dir: data/processed
+  results_dir: results
+  figures_dir: results/figures
+  tables_dir: results/tables
+signal:
+  calibration_factor: 200.0
+  psi_to_pa: 6894.76
+  denoise_method: savgol
+  savgol_window: 15
+  savgol_polyorder: 3
+  ma_window_sec: 30
+  enable_drift_correction: true
+  drift_reference_channel: ai2
+cycle_detection:
+  method: gradient
+  gradient_drop_threshold: -0.002
+  gradient_rise_threshold: 0.001
+  min_cycle_duration_sec: 2400
+  max_cycle_duration_sec: 7200
+  threshold_voltage_mv: 1.0
+  phase_durations:
+    fill: 30
+    filtration: 1800
+    backwash: 600
+    drain_1: 30
+    chemical_fill: 120
+    cip_soak: 2400
+    drain_2: 30
+    transition: 5
+feature_extraction:
+  cwr_measurement_duration_sec: 1800
+  cwr_stabilization_skip_sec: 300
+  cwr_stability_window_sec: 120
+  cwr_stability_threshold: 0.0005
+  permeate_flux_lmh: 50.0
+  water_viscosity_pa_s: 0.001002
+  fouling_rate_fit_window_pct:
+  - 0.2
+  - 0.9
+  cwr_peak_fraction: 0.35
+modeling:
+  parametric:
+    models:
+    - power_law
+    - exponential
+    - weibull
+    n_bootstrap: 200
+  gp:
+    kernels:
+    - rbf
+    - matern32
+    - matern52
+    - rational_quadratic
+    normalize_x: true
+    n_restarts: 5
+  comparison:
+    use_aicc: true
+facilities:
+  mapping:
+    Facility_A:
+      id: Plant-01
+      protein_loading: 0.025
+    Facility_B:
+      id: Plant-02
+      protein_loading: 0.063
+    Facility_C:
+      id: Plant-03
+      protein_loading: 0.227
+    Facility_D:
+      id: Plant-04
+      protein_loading: 0.298
+    Lab_High:
+      id: Lab-HP
+      protein_loading: 0.244
+    Lab_None:
+      id: Lab-Ctrl
+      protein_loading: 0.0
